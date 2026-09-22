@@ -34,6 +34,9 @@ jobs:
           persist-credentials: false
       - name: Fuzz ${{matrix.language}} parser
         uses: tree-sitter/fuzz-action@6a1dcff00aefd038ba418bd63732a9add4901266 # v4
+        env:
+          # The pinned runtime's CMake install uses share/pkgconfig.
+          PKG_CONFIG_PATH: ${{runner.tool_cache}}/tree-sitter/lib/share/pkgconfig
         with:
           directory: ${{matrix.language}}
           tree-sitter-version: v0.24.4
