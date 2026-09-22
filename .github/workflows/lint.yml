@@ -1,26 +1,40 @@
 name: Lint
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [master]
     paths:
       - common/define-grammar.js
+      - package.json
+      - package-lock.json
+      - eslint.config.mjs
+      - .github/workflows/lint.yml
   pull_request:
     paths:
       - common/define-grammar.js
+      - package.json
+      - package-lock.json
+      - eslint.config.mjs
+      - .github/workflows/lint.yml
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           cache: npm
-          node-version: ${{vars.NODE_VERSION}}
+          node-version: "24"
       - name: Install modules
-        run: npm ci --legacy-peer-deps
+        run: npm ci --legacy-peer-deps --ignore-scripts
       - name: Run ESLint
         run: npm run lint
