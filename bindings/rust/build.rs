@@ -8,7 +8,49 @@ fn main() {
     config.include(&typescript_dir);
     config
         .flag_if_supported("-std=c11")
-        .flag_if_supported("-Wno-unused-parameter");
+        .flag_if_supported("-Wno-unused-parameter")
+        .define("tree_sitter_typescript", "brokk_tree_sitter_typescript")
+        .define("tree_sitter_tsx", "brokk_tree_sitter_tsx")
+        .define(
+            "tree_sitter_typescript_external_scanner_create",
+            "brokk_tree_sitter_typescript_external_scanner_create",
+        )
+        .define(
+            "tree_sitter_typescript_external_scanner_destroy",
+            "brokk_tree_sitter_typescript_external_scanner_destroy",
+        )
+        .define(
+            "tree_sitter_typescript_external_scanner_scan",
+            "brokk_tree_sitter_typescript_external_scanner_scan",
+        )
+        .define(
+            "tree_sitter_typescript_external_scanner_serialize",
+            "brokk_tree_sitter_typescript_external_scanner_serialize",
+        )
+        .define(
+            "tree_sitter_typescript_external_scanner_deserialize",
+            "brokk_tree_sitter_typescript_external_scanner_deserialize",
+        )
+        .define(
+            "tree_sitter_tsx_external_scanner_create",
+            "brokk_tree_sitter_tsx_external_scanner_create",
+        )
+        .define(
+            "tree_sitter_tsx_external_scanner_destroy",
+            "brokk_tree_sitter_tsx_external_scanner_destroy",
+        )
+        .define(
+            "tree_sitter_tsx_external_scanner_scan",
+            "brokk_tree_sitter_tsx_external_scanner_scan",
+        )
+        .define(
+            "tree_sitter_tsx_external_scanner_serialize",
+            "brokk_tree_sitter_tsx_external_scanner_serialize",
+        )
+        .define(
+            "tree_sitter_tsx_external_scanner_deserialize",
+            "brokk_tree_sitter_tsx_external_scanner_deserialize",
+        );
 
     for path in &[
         typescript_dir.join("parser.c"),
@@ -25,5 +67,5 @@ fn main() {
         common_dir.join("scanner.h").to_str().unwrap()
     );
 
-    config.compile("tree-sitter-typescript");
+    config.compile("brokk-tree-sitter-typescript");
 }

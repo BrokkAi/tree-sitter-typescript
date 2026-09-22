@@ -76,9 +76,9 @@
     }
   ],
   "metadata": {
-    "version": "0.23.2",
+    "version": "0.23.3",
     "license": "MIT",
-    "description": "TypeScript and TSX grammars for tree-sitter",
+    "description": "Brokk-maintained Tree-sitter grammars for TypeScript and TSX",
     "authors": [
       {
         "name": "Max Brunsfeld",
@@ -87,10 +87,13 @@
       {
         "name": "Amaan Qureshi",
         "email": "amaanq12@gmail.com"
+      },
+      {
+        "name": "Brokk"
       }
     ],
     "links": {
-      "repository": "https://github.com/tree-sitter/tree-sitter-typescript"
+      "repository": "https://github.com/BrokkAi/tree-sitter-typescript"
     }
   },
   "bindings": {
