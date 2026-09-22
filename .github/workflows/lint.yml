@@ -4,9 +4,11 @@ permissions:
   contents: read
 
 on:
+  workflow_dispatch:
   push:
     branches: [master]
     paths:
+      - .github/workflows/lint.yml
       - common/define-grammar.js
       - package.json
       - package-lock.json
@@ -14,6 +16,7 @@ on:
       - .github/workflows/lint.yml
   pull_request:
     paths:
+      - .github/workflows/lint.yml
       - common/define-grammar.js
       - package.json
       - package-lock.json

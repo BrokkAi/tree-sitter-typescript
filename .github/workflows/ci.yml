@@ -7,19 +7,6 @@ on:
   workflow_dispatch:
   push:
     branches: [master]
-    paths:
-      - ".github/workflows/ci.yml"
-      - "common/**"
-      - "*/grammar.js"
-      - "*/src/**"
-      - "bindings/**"
-      - "binding.gyp"
-      - "Cargo.toml"
-      - "Cargo.lock"
-      - "package.json"
-      - "package-lock.json"
-      - "tree-sitter.json"
-      - "test/**"
   pull_request:
     paths:
       - ".github/workflows/ci.yml"

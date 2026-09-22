@@ -4,14 +4,17 @@ permissions:
   contents: read
 
 on:
+  workflow_dispatch:
   push:
     branches: [master]
     paths:
+      - .github/workflows/fuzz.yml
       - typescript/src/scanner.c
       - tsx/src/scanner.c
       - common/scanner.h
   pull_request:
     paths:
+      - .github/workflows/fuzz.yml
       - typescript/src/scanner.c
       - tsx/src/scanner.c
       - common/scanner.h
