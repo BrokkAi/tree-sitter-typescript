@@ -12,6 +12,7 @@ enum TokenType {
     REGEX_PATTERN,
     JSX_TEXT,
     FUNCTION_SIGNATURE_AUTOMATIC_SEMICOLON,
+    TYPE_MEMBER_AUTOMATIC_SEMICOLON,
     ERROR_RECOVERY,
 };
 
@@ -80,7 +81,9 @@ static bool scan_whitespace_and_comments(TSLexer *lexer, bool *scanned_comment) 
 }
 
 static bool scan_automatic_semicolon(TSLexer *lexer, const bool *valid_symbols, bool *scanned_comment) {
-    lexer->result_symbol = AUTOMATIC_SEMICOLON;
+    lexer->result_symbol = valid_symbols[TYPE_MEMBER_AUTOMATIC_SEMICOLON]
+                               ? TYPE_MEMBER_AUTOMATIC_SEMICOLON
+                               : AUTOMATIC_SEMICOLON;
     lexer->mark_end(lexer);
 
     for (;;) {
@@ -165,6 +168,9 @@ static bool scan_automatic_semicolon(TSLexer *lexer, const bool *valid_symbols, 
             // Don't insert a semicolon before `in` or `instanceof`, but do insert one
             // before an identifier.
         case 'i':
+            if (valid_symbols[TYPE_MEMBER_AUTOMATIC_SEMICOLON]) {
+                return true;
+            }
             skip(lexer);
 
             if (lexer->lookahead != 'n') {
@@ -326,7 +332,8 @@ static inline bool external_scanner_scan(void *payload, TSLexer *lexer, const bo
         return true;
     }
 
-    if (valid_symbols[AUTOMATIC_SEMICOLON] || valid_symbols[FUNCTION_SIGNATURE_AUTOMATIC_SEMICOLON]) {
+    if (valid_symbols[AUTOMATIC_SEMICOLON] || valid_symbols[FUNCTION_SIGNATURE_AUTOMATIC_SEMICOLON] ||
+        valid_symbols[TYPE_MEMBER_AUTOMATIC_SEMICOLON]) {
         bool scanned_comment = false;
         bool ret = scan_automatic_semicolon(lexer, valid_symbols, &scanned_comment);
         if (!ret && !scanned_comment && valid_symbols[TERNARY_QMARK] && lexer->lookahead == '?') {

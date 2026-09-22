@@ -6,6 +6,7 @@ module.exports = function defineGrammar(dialect) {
 
     externals: ($, previous) => previous.concat([
       $._function_signature_automatic_semicolon,
+      $._type_member_automatic_semicolon,
       $.__error_recovery,
     ]),
 
@@ -78,12 +79,16 @@ module.exports = function defineGrammar(dialect) {
 
       // This appears to be necessary to parse a parenthesized class expression
       [$.class],
+      [$._type_query_member_expression_in_type_annotation],
 
       [$.nested_identifier, $.nested_type_identifier, $.primary_expression],
       [$.nested_identifier, $.nested_type_identifier],
 
       [$._call_signature, $.function_type],
       [$._call_signature, $.constructor_type],
+      [$.method_signature, $._type_property_name],
+      [$.method_definition, $.method_signature, $._type_property_name],
+      [$.pair, $.pair_pattern, $._type_property_name],
 
       [$.primary_expression, $._parameter_name],
       [$.primary_expression, $._parameter_name, $.primary_type],
@@ -139,7 +144,7 @@ module.exports = function defineGrammar(dialect) {
         )),
         choice(
           seq(optional('static'), optional($.override_modifier), optional('readonly')),
-          seq(optional('abstract'), optional('readonly')),
+          seq(optional('abstract'), optional($.override_modifier), optional('readonly')),
           seq(optional('readonly'), optional('abstract')),
           optional('accessor'),
         ),
@@ -702,6 +707,7 @@ module.exports = function defineGrammar(dialect) {
           $.private_property_identifier,
           alias($.identifier, $.property_identifier),
         )),
+        optional($.type_arguments),
       ),
       _type_query_call_expression_in_type_annotation: $ => seq(
         field('function', choice(
@@ -963,7 +969,7 @@ module.exports = function defineGrammar(dialect) {
         optional(seq(
           optional(choice(',', ';')),
           sepBy1(
-            choice(',', $._semicolon),
+            choice(',', $._type_member_semicolon),
             choice(
               $.export_statement,
               $.property_signature,
@@ -973,7 +979,7 @@ module.exports = function defineGrammar(dialect) {
               $.method_signature,
             ),
           ),
-          optional(choice(',', $._semicolon)),
+          optional(choice(',', $._type_member_semicolon)),
         )),
         choice('}', '|}'),
       ),
@@ -985,10 +991,17 @@ module.exports = function defineGrammar(dialect) {
         optional('static'),
         optional($.override_modifier),
         optional('readonly'),
-        field('name', $._property_name),
+        field('name', $._type_property_name),
         optional('?'),
         field('type', optional($.type_annotation)),
       ),
+
+      _type_property_name: $ => choice(
+        $._property_name,
+        alias(choice('abstract', 'in', 'instanceof'), $.property_identifier),
+      ),
+
+      _type_member_semicolon: $ => choice($._type_member_automatic_semicolon, ';'),
 
       _call_signature: $ => seq(
         field('type_parameters', optional($.type_parameters)),
@@ -1103,8 +1116,7 @@ module.exports = function defineGrammar(dialect) {
  *
  * @param {RuleOrLiteral} rule
  *
- * @return {SeqRule}
- *
+ * @returns {SeqRule}
  */
 function commaSep1(rule) {
   return sepBy1(',', rule);
@@ -1115,8 +1127,7 @@ function commaSep1(rule) {
  *
  * @param {RuleOrLiteral} rule
  *
- * @return {SeqRule}
- *
+ * @returns {SeqRule}
  */
 function commaSep(rule) {
   return sepBy(',', rule);
@@ -1129,7 +1140,7 @@ function commaSep(rule) {
  *
  * @param {RuleOrLiteral} rule
  *
- * @return {ChoiceRule}
+ * @returns {ChoiceRule}
  */
 function sepBy(sep, rule) {
   return optional(sepBy1(sep, rule));
@@ -1142,7 +1153,7 @@ function sepBy(sep, rule) {
  *
  * @param {RuleOrLiteral} rule
  *
- * @return {SeqRule}
+ * @returns {SeqRule}
  */
 function sepBy1(sep, rule) {
   return seq(rule, repeat(seq(sep, rule)));

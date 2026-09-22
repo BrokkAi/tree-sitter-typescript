@@ -1,5 +1,7 @@
 =======================================
 Built-in types
+:language(typescript)
+:language(tsx)
 =======================================
 
 var x: string = 'hi';
@@ -23,6 +25,8 @@ var y: number;
 
 =======================================
 Parenthesized types
+:language(typescript)
+:language(tsx)
 =======================================
 
 var x: (string);
@@ -50,6 +54,8 @@ var x: ({a: any});
 
 =======================================
 Object types
+:language(typescript)
+:language(tsx)
 =======================================
 
 let person: {name: string, age: number};
@@ -117,6 +123,8 @@ type T = { -readonly [K in keyof T]: any }
 
 =======================================
 Object types with call signatures
+:language(typescript)
+:language(tsx)
 =======================================
 
 let MyFunction: {
@@ -145,6 +153,8 @@ let MyFunction: {
 
 ====================================================
 Index signatures
+:language(typescript)
+:language(tsx)
 ====================================================
 
 type Foo = {
@@ -171,6 +181,8 @@ type Foo = {
 
 ====================================================
 Object types with automatic semicolon insertion
+:language(typescript)
+:language(tsx)
 ====================================================
 
 type Something = {
@@ -203,6 +215,8 @@ type Something = {
 
 ==========================================================
 Automatic semicolon disabled before return type
+:language(typescript)
+:language(tsx)
 ==========================================================
 
 function f(): any {
@@ -249,6 +263,8 @@ f
 
 =======================================
 Array types
+:language(typescript)
+:language(tsx)
 =======================================
 
 let x: X[];
@@ -265,6 +281,8 @@ let x: X[];
 
 =======================================
 Function types
+:language(typescript)
+:language(tsx)
 =======================================
 
 let x: (result: string) => any;
@@ -303,6 +321,8 @@ const foo: (this: Readable, size?: number) => any;
 
 ======================================
 Functions with destructured parameters
+:language(typescript)
+:language(tsx)
 ======================================
 
 let foo: ({a}: Foo) => number
@@ -325,6 +345,8 @@ let foo: ({a}: Foo) => number
 
 =======================================
 Constructor types
+:language(typescript)
+:language(tsx)
 =======================================
 
 let x: new < T1, T2 > ( p1, p2 ) => R;
@@ -351,6 +373,8 @@ let x: new < T1, T2 > ( p1, p2 ) => R;
 
 =======================================
 Symbol types
+:language(typescript)
+:language(tsx)
 =======================================
 
 const symFoo: unique symbol = Symbol("foo");
@@ -384,6 +408,8 @@ const symBar: symbol = Symbol.for("bar");
 
 =======================================
 Type annotations in parenthesized expressions
+:language(typescript)
+:language(tsx)
 =======================================
 
 const range = (document: any).selection.createRange()
@@ -407,6 +433,8 @@ const range = (document: any).selection.createRange()
 
 =======================================
 Flow Maybe Types
+:language(typescript)
+:language(tsx)
 =======================================
 
 const editor: ?CodeEditor
@@ -431,6 +459,8 @@ const miscArray: ?T[]
 
 =======================================
 Flow Import Types
+:language(typescript)
+:language(tsx)
 =======================================
 
 import type {UserID, User} from "./User.js";
@@ -553,6 +583,8 @@ import type, {addUser, type User} from './User.js';
 
 =======================================
 Type-only Export
+:language(typescript)
+:language(tsx)
 =======================================
 
 export type { UserType }
@@ -586,6 +618,8 @@ export type { A, B, C as D } from 'mymodule';
 
 =======================================
 Flow Export Types
+:language(typescript)
+:language(tsx)
 =======================================
 
 export type UserType = {};
@@ -605,6 +639,8 @@ export interface UserInterface {}
 
 =======================================
 Type alias declarations
+:language(typescript)
+:language(tsx)
 =======================================
 
 type FileMergeData = {
@@ -661,6 +697,8 @@ type ConflictInfo = {
 
 =======================================
 Enum declarations
+:language(typescript)
+:language(tsx)
 =======================================
 
 enum Test {
@@ -736,6 +774,8 @@ enum Style {
 
 =======================================
 Interface declarations
+:language(typescript)
+:language(tsx)
 =======================================
 
 interface A { a: string; }
@@ -848,6 +888,8 @@ interface Enum extends Bar, Baz, Foo<A> {
 
 =======================================
 Generic types
+:language(typescript)
+:language(tsx)
 =======================================
 
 class A<
@@ -910,6 +952,8 @@ class F extends G, H<T> {}
 
 =======================================
 Existential types
+:language(typescript)
+:language(tsx)
 =======================================
 
 let x: Array<*>
@@ -928,6 +972,8 @@ let x: Array<*>
 
 =======================================
 Flow Union types
+:language(typescript)
+:language(tsx)
 =======================================
 
 type U = number | string;
@@ -961,6 +1007,8 @@ type Z = | "foo";
 
 =======================================
 Flow Intersection types
+:language(typescript)
+:language(tsx)
 =======================================
 
 type BrowserStats$ResourceTiming = number & string;
@@ -976,6 +1024,8 @@ type BrowserStats$ResourceTiming = number & string;
 
 =======================================
 Flow exact object types
+:language(typescript)
+:language(tsx)
 =======================================
 
 type BrowserStats = {|
@@ -1000,6 +1050,8 @@ type BrowserStats = {|
 
 =======================================
 Literal types
+:language(typescript)
+:language(tsx)
 =======================================
 
 let x: 2
@@ -1046,6 +1098,8 @@ let x: false
 
 =======================================
 Flow type parameter constraint syntax
+:language(typescript)
+:language(tsx)
 =======================================
 
 type HandlerFunction<T: Element> = void
@@ -1064,6 +1118,8 @@ type HandlerFunction<T: Element> = void
 
 =======================================
 Nested type arguments
+:language(typescript)
+:language(tsx)
 =======================================
 
 interface X {
@@ -1112,6 +1168,8 @@ var y: Map<number, Promise<Map<bool, Map<Foo, Bar>>>>
 
 =======================================
 predefined types as identifiers
+:language(typescript)
+:language(tsx)
 =======================================
 
 let score: (string: string, query: string) => number
@@ -1137,6 +1195,8 @@ let score: (string: string, query: string) => number
 
 =======================================
 Non-null assertion operator
+:language(typescript)
+:language(tsx)
 =======================================
 
 const repository = foo++!
@@ -1153,6 +1213,8 @@ const repository = foo++!
 
 =======================================
 Type query and index type query types
+:language(typescript)
+:language(tsx)
 =======================================
 
 type T = keyof Person;
@@ -1240,6 +1302,8 @@ type T = typeof array[number];
 
 =======================================
 Lookup types
+:language(typescript)
+:language(tsx)
 =======================================
 
 type K1 = Foo[bar]
@@ -1267,6 +1331,8 @@ type K1 = Foo['bar' | 'baz']
 
 =======================================
 Mapped types
+:language(typescript)
+:language(tsx)
 =======================================
 
 export type NoInfer<T> = T & { [K in keyof T]: T[K] };
@@ -1295,6 +1361,8 @@ export type NoInfer<T> = T & { [K in keyof T]: T[K] };
 
 =======================================
 Assertion functions checking a value
+:language(typescript)
+:language(tsx)
 =======================================
 
 function f(x: any): asserts x {
@@ -1317,6 +1385,8 @@ function f(x: any): asserts x {
 
 =======================================
 Assertion functions checking a type
+:language(typescript)
+:language(tsx)
 =======================================
 
 function f(x: any): asserts x is number {
@@ -1377,6 +1447,8 @@ function isT(t: T): t is T {
 
 =======================================
 Type of an assertion function
+:language(typescript)
+:language(tsx)
 =======================================
 
 declare const f: (x: any) => asserts x;
@@ -1416,6 +1488,8 @@ declare const g: (x: any) => asserts x is number;
 
 ==================================
 Type predicate and predefined types
+:language(typescript)
+:language(tsx)
 ==================================
 
 function isFish(pet: Fish): pet is Fish {
@@ -1454,6 +1528,8 @@ function isFish(object: Fish): object is Fish {
 
 ==================================
 Read-only arrays
+:language(typescript)
+:language(tsx)
 ==================================
 
 type t = a[]
@@ -1498,6 +1574,8 @@ type t = readonly (readonly a[]) []
 
 ==================================
 Tuple types
+:language(typescript)
+:language(tsx)
 ==================================
 
 type t = []
@@ -1566,6 +1644,8 @@ type t = [a: A, b?: B, ...c: C[]]
 
 ==================================
 Conditional types
+:language(typescript)
+:language(tsx)
 ==================================
 
 type T = X extends Y ? Z : Y
@@ -1729,6 +1809,8 @@ type T<X> = T extends { x: infer X extends number } ? X : never;
 
 ==================================
 Template literal types
+:language(typescript)
+:language(tsx)
 ==================================
 
 type A<B, C> = `${B}${C}`;
@@ -1868,6 +1950,8 @@ type StringToNumber<S extends string> = S extends `${infer N extends number}` ? 
 
 ==================================
 Mapped type 'as' clauses
+:language(typescript)
+:language(tsx)
 ==================================
 
 type A<B> = { [B in keyof C & string as `get${Capitalize<P>}`]: () => A[B] };
@@ -1931,6 +2015,8 @@ type A<B> = { [B in keyof C & string as `${P}1` | `${P}2`]: A[B] }
 
 ============================
 typeof in generic arguments
+:language(typescript)
+:language(tsx)
 ============================
 
 type T = Foo<Bar<typeof bar>>
@@ -1979,6 +2065,8 @@ type T = Foo<Bar<typeof bar["baz"]>>
 
 ==================================
 Literal types and pre-defined types
+:language(typescript)
+:language(tsx)
 ==================================
 
 type T = Foo<any, unknown, number, string, void, true, false, null, undefined, 0, "foo">
@@ -2012,6 +2100,8 @@ type T = Foo<any, unknown, number, string, void, true, false, null, undefined, 0
 
 ==================================
 Extends
+:language(typescript)
+:language(tsx)
 ==================================
 
 type Foo<T extends abstract new (...args: any) => any> = T;
@@ -2053,6 +2143,8 @@ type Foo<T extends new (...args: any) => any> = T;
 
 ========
 Abstract
+:language(typescript)
+:language(tsx)
 ========
 
 type Foo<T> = abstract new () => T;
@@ -2071,6 +2163,8 @@ type Foo<T> = abstract new () => T;
 
 =========================
 Indexed Access Precedence
+:language(typescript)
+:language(tsx)
 =========================
 
 // These should generate the same AST aside from the parenthesized_type node
@@ -2101,6 +2195,8 @@ type X2 = (typeof Y)[keyof typeof Z];
 
 =========================
 Typeof instantiation expressions
+:language(typescript)
+:language(tsx)
 =========================
 
 // This is a special construct, different from both "typeof (f<T>)" and
@@ -2122,6 +2218,8 @@ type T = typeof f<T>;
 
 =========================
 Typeof this
+:language(typescript)
+:language(tsx)
 =========================
 
 class A {
@@ -2170,6 +2268,8 @@ class A {
 
 =========================
 Import in type
+:language(typescript)
+:language(tsx)
 =========================
 
 type Foo = import('node:fs').ReadStream & {
@@ -2196,6 +2296,8 @@ type Foo = import('node:fs').ReadStream & {
 
 =========================
 Import assert
+:language(typescript)
+:language(tsx)
 =========================
 
 import something from 'foo.css' assert { type: 'css' }
@@ -2214,3 +2316,124 @@ import something from 'foo.css' assert { type: 'css' }
           (property_identifier)
           (string
             (string_fragment)))))))
+
+=========================
+Import type with type arguments
+:language(typescript)
+:language(tsx)
+=========================
+
+type Foo = import('foo').Foo<F>;
+
+const foo: import('bar').Bar<string> = 'baz';
+
+---
+
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (member_expression
+      (call_expression
+        (import)
+        (arguments
+          (string
+            (string_fragment))))
+      (property_identifier)
+      (type_arguments
+        (type_identifier))))
+  (lexical_declaration
+    (variable_declarator
+      (identifier)
+      (type_annotation
+        (member_expression
+          (call_expression
+            (import)
+            (arguments
+              (string
+                (string_fragment))))
+          (property_identifier)
+          (type_arguments
+            (predefined_type))))
+      (string
+        (string_fragment)))))
+
+====================================
+Import members and keyword type keys
+:language(typescript)
+:language(tsx)
+====================================
+
+type Imported = import("react").RefObject<HTMLDivElement>;
+
+type Filters<T = never> = {
+  previous?: Ref<T>
+  in?: string[]
+  instanceof: boolean
+  abstract?: string
+}
+
+---
+
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (member_expression
+      (call_expression
+        (import)
+        (arguments
+          (string
+            (string_fragment))))
+      (property_identifier)
+      (type_arguments
+        (type_identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (type_parameters
+      (type_parameter
+        (type_identifier)
+        (default_type
+          (predefined_type))))
+    (object_type
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (generic_type
+            (type_identifier)
+            (type_arguments
+              (type_identifier)))))
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (array_type
+            (predefined_type))))
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (predefined_type)))
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (predefined_type))))))
+
+==========================================
+Same-line keyword type key remains invalid
+:language(typescript)
+:language(tsx)
+==========================================
+
+type Broken = { previous: string in?: string[] };
+
+---
+
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (object_type
+      (property_signature
+        (property_identifier)
+        (type_annotation
+          (ERROR
+            (predefined_type)
+            (identifier))
+          (array_type
+            (predefined_type)))))))

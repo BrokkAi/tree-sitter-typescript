@@ -1,5 +1,7 @@
 ==================================
 Functions with typed parameters
+:language(typescript)
+:language(tsx)
 ==================================
 
 function greeter(person: string) {
@@ -78,6 +80,8 @@ function foo<const T, const U extends string>(x: T, y: U) {
 
 ==================================
 New object with type arguments
+:language(typescript)
+:language(tsx)
 ==================================
 
 const lines = new Array<DiffLine>()
@@ -95,6 +99,8 @@ const lines = new Array<DiffLine>()
 
 ===================================================
 Function calls with array and tuple type arguments
+:language(typescript)
+:language(tsx)
 ===================================================
 
 a.b<[C]>();
@@ -121,6 +127,8 @@ a<C.D[]>();
 
 =========================================================
 Function calls with optional chaining and type arguments
+:language(typescript)
+:language(tsx)
 =========================================================
 
 A?.<B>();
@@ -136,6 +144,8 @@ A?.<B>();
 
 ==================================
 Arrow functions and generators with call signatures
+:language(typescript)
+:language(tsx)
 ==================================
 
 <A>(amount, interestRate, duration): number => 2
@@ -178,6 +188,8 @@ function* foo<A>(amount, interestRate, duration): number {
 
 ==================================
 Arrow function with parameter named async
+:language(typescript)
+:language(tsx)
 ==================================
 
 const x = async => async;
@@ -189,6 +201,8 @@ const x = async => async;
 
 ==================================
 Super
+:language(typescript)
+:language(tsx)
 ==================================
 
 class A extends B {
@@ -237,6 +251,8 @@ class A extends B {
 
 ==================
 Function signature
+:language(typescript)
+:language(tsx)
 ==================
 
 export default function foo(): bar
@@ -252,6 +268,8 @@ export default function foo(): bar
 
 =============================================================
 Ambiguity between function signature and function declaration
+:language(typescript)
+:language(tsx)
 =============================================================
 
 function foo()
@@ -308,6 +326,8 @@ function foo(): () => { [key: foo]: bar } {}
 
 ====================================================================================
 Ambiguity between function signature and function declaration: comments and newlines
+:language(typescript)
+:language(tsx)
 ====================================================================================
 
 function foo()
