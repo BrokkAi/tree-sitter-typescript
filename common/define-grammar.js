@@ -732,8 +732,6 @@ module.exports = function defineGrammar(dialect) {
         $.readonly_type,
         $.constructor_type,
         $.infer_type,
-        prec(-1, alias($._type_query_member_expression_in_type_annotation, $.member_expression)),
-        prec(-1, alias($._type_query_call_expression_in_type_annotation, $.call_expression)),
       ),
 
       tuple_parameter: $ => seq(
@@ -767,7 +765,11 @@ module.exports = function defineGrammar(dialect) {
         field('type', $.type),
       )),
 
+      // Import types are primary types so array and indexed-access suffixes
+      // compose with them, just as they do with ordinary type references.
       primary_type: $ => choice(
+        prec(-1, alias($._type_query_member_expression_in_type_annotation, $.member_expression)),
+        prec(-1, alias($._type_query_call_expression_in_type_annotation, $.call_expression)),
         $.parenthesized_type,
         $.predefined_type,
         $._type_identifier,
