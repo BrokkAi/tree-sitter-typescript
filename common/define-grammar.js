@@ -274,6 +274,39 @@ module.exports = function defineGrammar(dialect) {
         '/>',
       )),
 
+      // A bare `&` that does not start a character reference is literal JSX
+      // text. This mirrors brokk-tree-sitter-javascript's JSX rules: the
+      // tree-sitter-javascript dependency this grammar builds on is the npm
+      // release, which predates that fix.
+      _jsx_child: $ => choice(
+        $.jsx_text,
+        alias(token('&'), $.jsx_text),
+        $.html_character_reference,
+        $._jsx_element,
+        $.jsx_expression,
+      ),
+
+      _jsx_string: $ => choice(
+        seq(
+          '"',
+          repeat(choice(
+            alias($.unescaped_double_jsx_string_fragment, $.string_fragment),
+            alias(token.immediate('&'), $.string_fragment),
+            $.html_character_reference,
+          )),
+          '"',
+        ),
+        seq(
+          '\'',
+          repeat(choice(
+            alias($.unescaped_single_jsx_string_fragment, $.string_fragment),
+            alias(token.immediate('&'), $.string_fragment),
+            $.html_character_reference,
+          )),
+          '\'',
+        ),
+      ),
+
       export_specifier: (_, previous) => seq(
         optional(choice('type', 'typeof')),
         previous,
