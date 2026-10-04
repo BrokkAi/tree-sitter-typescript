@@ -19,14 +19,14 @@ prefer the upstream project.
 Add the Brokk-maintained TypeScript crate to your project:
 
 ```sh
-cargo add brokk-tree-sitter-typescript@=0.23.3
+cargo add brokk-tree-sitter-typescript@=0.23.4
 ```
 
 Or add it directly to `Cargo.toml`:
 
 ```toml
 [dependencies]
-brokk-tree-sitter-typescript = "=0.23.3"
+brokk-tree-sitter-typescript = "=0.23.4"
 ```
 
 The npm, Python, Go, Swift, and C bindings retain their upstream-compatible
@@ -35,6 +35,10 @@ crate prefixes both grammars' native symbols, so it can coexist with the
 upstream `tree-sitter-typescript` crate in one executable.
 
 ## Changes from upstream
+
+Version 0.23.4 lets import types compose with array and indexed-access types,
+including nested generic members, and with `keyof`, `readonly`, unions, and
+intersections. Both TypeScript and TSX retain the existing import AST shapes.
 
 Version 0.23.3 builds on upstream commit
 `75b3874edb2dc714fb1fd77a32013d0f8699989f`. It adds generic arguments to

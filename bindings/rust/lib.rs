@@ -136,6 +136,55 @@ declare abstract class Derived extends Base {
     }
 
     #[test]
+    fn test_import_type_compositions_in_both_dialects() {
+        for language in [super::LANGUAGE_TYPESCRIPT, super::LANGUAGE_TSX] {
+            let mut parser = tree_sitter::Parser::new();
+            parser.set_language(&language.into()).unwrap();
+            for (source, kind) in [
+                (r#"type ItemList = import("./m").Thing[];"#, "array_type"),
+                (
+                    r#"type Member = import("./m").Container["member"];"#,
+                    "lookup_type",
+                ),
+                (
+                    r#"type Nested = import("./m").NS.Box<string>["items"][][];"#,
+                    "array_type",
+                ),
+                (r#"type Module = import("./m")["Thing"];"#, "lookup_type"),
+                (
+                    r#"type Keys = keyof import("./m").Thing;"#,
+                    "index_type_query",
+                ),
+                (
+                    r#"type ReadonlyList = readonly import("./m").Thing[];"#,
+                    "readonly_type",
+                ),
+                (
+                    r#"type Union = import("./m").Thing | undefined;"#,
+                    "union_type",
+                ),
+                (
+                    r#"type Intersection = import("./m").Thing & { id: string };"#,
+                    "intersection_type",
+                ),
+            ] {
+                let tree = parser.parse(source, None).unwrap();
+                assert!(
+                    !tree.root_node().has_error(),
+                    "{source}: {}",
+                    tree.root_node().to_sexp()
+                );
+                let alias = tree.root_node().named_child(0).unwrap();
+                assert_eq!(
+                    alias.child_by_field_name("value").unwrap().kind(),
+                    kind,
+                    "{source}"
+                );
+            }
+        }
+    }
+
+    #[test]
     fn test_expression_and_malformed_near_misses() {
         for language in [super::LANGUAGE_TYPESCRIPT, super::LANGUAGE_TSX] {
             let mut parser = tree_sitter::Parser::new();

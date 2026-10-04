@@ -2437,3 +2437,123 @@ type Broken = { previous: string in?: string[] };
             (identifier))
           (array_type
             (predefined_type)))))))
+
+=======================================
+Import type compositions
+:language(typescript)
+:language(tsx)
+=======================================
+
+type ItemList = import("./m").Thing[];
+type Member = import("./m").Container["member"];
+type Nested = import("./m").NS.Box<string>["items"][][];
+type Module = import("./m")["Thing"];
+type Keys = keyof import("./m").Thing;
+type ReadonlyList = readonly import("./m").Thing[];
+type Union = import("./m").Thing | undefined;
+type Intersection = import("./m").Thing & { id: string };
+
+---
+
+(program
+  (type_alias_declaration
+    (type_identifier)
+    (array_type
+      (member_expression
+        (call_expression
+          (import)
+          (arguments
+            (string
+              (string_fragment))))
+        (property_identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (lookup_type
+      (member_expression
+        (call_expression
+          (import)
+          (arguments
+            (string
+              (string_fragment))))
+        (property_identifier))
+      (literal_type
+        (string
+          (string_fragment)))))
+  (type_alias_declaration
+    (type_identifier)
+    (array_type
+      (array_type
+        (lookup_type
+          (member_expression
+            (member_expression
+              (call_expression
+                (import)
+                (arguments
+                  (string
+                    (string_fragment))))
+              (property_identifier))
+            (property_identifier)
+            (type_arguments
+              (predefined_type)))
+          (literal_type
+            (string
+              (string_fragment)))))))
+  (type_alias_declaration
+    (type_identifier)
+    (lookup_type
+      (call_expression
+        (import)
+        (arguments
+          (string
+            (string_fragment))))
+      (literal_type
+        (string
+          (string_fragment)))))
+  (type_alias_declaration
+    (type_identifier)
+    (index_type_query
+      (member_expression
+        (call_expression
+          (import)
+          (arguments
+            (string
+              (string_fragment))))
+        (property_identifier))))
+  (type_alias_declaration
+    (type_identifier)
+    (readonly_type
+      (array_type
+        (member_expression
+          (call_expression
+            (import)
+            (arguments
+              (string
+                (string_fragment))))
+          (property_identifier)))))
+  (type_alias_declaration
+    (type_identifier)
+    (union_type
+      (member_expression
+        (call_expression
+          (import)
+          (arguments
+            (string
+              (string_fragment))))
+        (property_identifier))
+      (literal_type
+        (undefined))))
+  (type_alias_declaration
+    (type_identifier)
+    (intersection_type
+      (member_expression
+        (call_expression
+          (import)
+          (arguments
+            (string
+              (string_fragment))))
+        (property_identifier))
+      (object_type
+        (property_signature
+          (property_identifier)
+          (type_annotation
+            (predefined_type)))))))
