@@ -185,6 +185,58 @@ declare abstract class Derived extends Base {
     }
 
     #[test]
+    fn test_tsx_literal_ampersands_and_entities() {
+        fn entity_count(node: tree_sitter::Node) -> usize {
+            let mut cursor = node.walk();
+            usize::from(node.kind() == "html_character_reference")
+                + node
+                    .named_children(&mut cursor)
+                    .map(entity_count)
+                    .sum::<usize>()
+        }
+
+        let mut parser = tree_sitter::Parser::new();
+        parser.set_language(&super::LANGUAGE_TSX.into()).unwrap();
+        for (source, entities) in [
+            (
+                r#"const x = <p a="&" b='&' c="x&" d='x&'>Roles & Groups</p>;"#,
+                0,
+            ),
+            (
+                r#"const x = <p a="?a=1&b=2" b='?a=1&b=2'>&foo &; &#bad &</p>;"#,
+                0,
+            ),
+            (
+                r#"const x = <p a="&amp;&#38;&#x26;" b='&amp;&#38;&#x26;'>&amp;&#38;&#x26;</p>;"#,
+                9,
+            ),
+            (
+                r#"const x = <><p a="&" />&amp;&{value}<span>&</span></>;"#,
+                1,
+            ),
+        ] {
+            let tree = parser.parse(source, None).unwrap();
+            assert!(
+                !tree.root_node().has_error(),
+                "{source}: {}",
+                tree.root_node().to_sexp()
+            );
+            assert_eq!(entity_count(tree.root_node()), entities, "{source}");
+        }
+        for source in [
+            "const x = <p a=\"&>text</p>;",
+            "const x = <p a='&>text</p>;",
+            "const x = <p>&;",
+        ] {
+            let tree = parser.parse(source, None).unwrap();
+            assert!(
+                tree.root_node().has_error(),
+                "unexpectedly accepted: {source}"
+            );
+        }
+    }
+
+    #[test]
     fn test_expression_and_malformed_near_misses() {
         for language in [super::LANGUAGE_TYPESCRIPT, super::LANGUAGE_TSX] {
             let mut parser = tree_sitter::Parser::new();
