@@ -19,14 +19,14 @@ prefer the upstream project.
 Add the Brokk-maintained TypeScript crate to your project:
 
 ```sh
-cargo add brokk-tree-sitter-typescript@=0.23.4
+cargo add brokk-tree-sitter-typescript@=0.23.5
 ```
 
 Or add it directly to `Cargo.toml`:
 
 ```toml
 [dependencies]
-brokk-tree-sitter-typescript = "=0.23.4"
+brokk-tree-sitter-typescript = "=0.23.5"
 ```
 
 The npm, Python, Go, Swift, and C bindings retain their upstream-compatible
@@ -35,6 +35,11 @@ crate prefixes both grammars' native symbols, so it can coexist with the
 upstream `tree-sitter-typescript` crate in one executable.
 
 ## Changes from upstream
+
+Version 0.23.5 accepts literal ampersands in TSX text and quoted attributes,
+including URL query strings and ampersands immediately before a closing quote.
+Named, decimal, and hexadecimal character references retain their existing
+AST nodes. The TypeScript parser is unchanged from 0.23.4.
 
 Version 0.23.4 lets import types compose with array and indexed-access types,
 including nested generic members, and with `keyof`, `readonly`, unions, and
