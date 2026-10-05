@@ -307,6 +307,10 @@ module.exports = function defineGrammar(dialect) {
         ),
       ),
 
+      // A literal ampersand must not consume the attribute's closing quote.
+      unescaped_double_jsx_string_fragment: _ => token.immediate(prec(1, /([^"&]|&[^#A-Za-z"])+/)),
+      unescaped_single_jsx_string_fragment: _ => token.immediate(prec(1, /([^'&]|&[^#A-Za-z'])+/)),
+
       export_specifier: (_, previous) => seq(
         optional(choice('type', 'typeof')),
         previous,
