@@ -28,7 +28,11 @@ static bool scan_template_chars(TSLexer *lexer) {
             case '`':
                 return has_content;
             case '\0':
-                return false;
+                if (lexer->eof(lexer)) {
+                    return false;
+                }
+                advance(lexer);
+                break;
             case '$':
                 advance(lexer);
                 if (lexer->lookahead == '{') {
@@ -54,13 +58,13 @@ static bool scan_whitespace_and_comments(TSLexer *lexer, bool *scanned_comment) 
 
             if (lexer->lookahead == '/') {
                 skip(lexer);
-                while (lexer->lookahead != 0 && lexer->lookahead != '\n') {
+                while (!lexer->eof(lexer) && lexer->lookahead != '\n') {
                     skip(lexer);
                 }
                 *scanned_comment = true;
             } else if (lexer->lookahead == '*') {
                 skip(lexer);
-                while (lexer->lookahead != 0) {
+                while (!lexer->eof(lexer)) {
                     if (lexer->lookahead == '*') {
                         skip(lexer);
                         if (lexer->lookahead == '/') {
@@ -87,7 +91,7 @@ static bool scan_automatic_semicolon(TSLexer *lexer, const bool *valid_symbols, 
     lexer->mark_end(lexer);
 
     for (;;) {
-        if (lexer->lookahead == 0) {
+        if (lexer->eof(lexer)) {
             return true;
         }
         if (lexer->lookahead == '}') {
@@ -268,7 +272,7 @@ static bool scan_closing_comment(TSLexer *lexer) {
         return false;
     }
 
-    while (lexer->lookahead != 0 && lexer->lookahead != '\n' && lexer->lookahead != 0x2028 &&
+    while (!lexer->eof(lexer) && lexer->lookahead != '\n' && lexer->lookahead != 0x2028 &&
            lexer->lookahead != 0x2029) {
         advance(lexer);
     }
@@ -287,7 +291,7 @@ static bool scan_jsx_text(TSLexer *lexer) {
     // immediately follows a newline.
     bool at_newline = false;
 
-    while (lexer->lookahead != 0 && lexer->lookahead != '<' && lexer->lookahead != '>' && lexer->lookahead != '{' &&
+    while (!lexer->eof(lexer) && lexer->lookahead != '<' && lexer->lookahead != '>' && lexer->lookahead != '{' &&
            lexer->lookahead != '}' && lexer->lookahead != '&') {
         bool is_wspace = iswspace(lexer->lookahead);
         if (lexer->lookahead == '\n') {

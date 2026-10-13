@@ -307,9 +307,51 @@ module.exports = function defineGrammar(dialect) {
         ),
       ),
 
+      // Keep NUL's lexical precedence separate from negated character classes.
+      // The pinned generator otherwise merges it into a class that excludes NUL.
+      unescaped_double_string_fragment: _ => token.immediate(prec(1, repeat1(choice(
+        prec(1, '\0'),
+        /[^"\\\r\n]+/,
+      )))),
+      unescaped_single_string_fragment: _ => token.immediate(prec(1, repeat1(choice(
+        prec(1, '\0'),
+        /[^'\\\r\n]+/,
+      )))),
+
+      escape_sequence: _ => token.immediate(seq(
+        '\\',
+        choice(
+          prec(1, '\0'),
+          /[^xu0-7]/,
+          /[0-7]{1,3}/,
+          /x[0-9a-fA-F]{2}/,
+          /u[0-9a-fA-F]{4}/,
+          /u\{[0-9a-fA-F]+\}/,
+          /[\r?][\n\u2028\u2029]/,
+        ),
+      )),
+
+      comment: _ => {
+        const nonStar = choice(prec(1, '\0'), /[^*]/);
+        return token(choice(
+          seq('//', repeat(choice(prec(1, '\0'), /[^\r\n\u2028\u2029]/))),
+          seq('/*', repeat(nonStar), repeat1('*'), repeat(seq(
+            choice(prec(1, '\0'), /[^/*]/), repeat(nonStar), repeat1('*'),
+          )), '/'),
+        ));
+      },
+
       // A literal ampersand must not consume the attribute's closing quote.
-      unescaped_double_jsx_string_fragment: _ => token.immediate(prec(1, /([^"&]|&[^#A-Za-z"])+/)),
-      unescaped_single_jsx_string_fragment: _ => token.immediate(prec(1, /([^'&]|&[^#A-Za-z'])+/)),
+      unescaped_double_jsx_string_fragment: _ => token.immediate(prec(1, repeat1(choice(
+        prec(1, '\0'),
+        /([^"&]|&[^#A-Za-z"])+/,
+        seq('&', prec(1, '\0')),
+      )))),
+      unescaped_single_jsx_string_fragment: _ => token.immediate(prec(1, repeat1(choice(
+        prec(1, '\0'),
+        /([^'&]|&[^#A-Za-z'])+/,
+        seq('&', prec(1, '\0')),
+      )))),
 
       export_specifier: (_, previous) => seq(
         optional(choice('type', 'typeof')),
