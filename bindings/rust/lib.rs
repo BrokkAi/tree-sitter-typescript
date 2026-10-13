@@ -445,6 +445,16 @@ declare abstract class Derived extends Base {
                 "jsx_text",
                 b"before\0after",
             ),
+            (
+                b"const view = <Widget title=\"&\0x\" />;\nconst after = 1;",
+                "string",
+                b"\"&\0x\"",
+            ),
+            (
+                b"const view = <Widget title='&\0' />;\nconst after = 1;",
+                "string",
+                b"'&\0'",
+            ),
         ];
 
         for (source, kind, raw_node) in cases {
@@ -457,6 +467,7 @@ declare abstract class Derived extends Base {
             assert_complete_source(&tree, source);
             assert_node_bytes(&tree, source, kind, raw_node);
             assert_node_bytes(&tree, source, "lexical_declaration", b"const after = 1;");
+            assert_eq!(count_nodes(tree.root_node(), "html_character_reference"), 0);
         }
     }
 
