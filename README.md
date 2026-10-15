@@ -19,14 +19,14 @@ prefer the upstream project.
 Add the Brokk-maintained TypeScript crate to your project:
 
 ```sh
-cargo add brokk-tree-sitter-typescript@=0.23.5
+cargo add brokk-tree-sitter-typescript@=0.23.7
 ```
 
 Or add it directly to `Cargo.toml`:
 
 ```toml
 [dependencies]
-brokk-tree-sitter-typescript = "=0.23.5"
+brokk-tree-sitter-typescript = "=0.23.7"
 ```
 
 The npm, Python, Go, Swift, and C bindings retain their upstream-compatible
@@ -36,9 +36,10 @@ upstream `tree-sitter-typescript` crate in one executable.
 
 ## Changes from upstream
 
-Both grammars accept `using` as a contextual identifier, including imported
-function calls, generic calls, bindings, and subscript assignments. A newline
-after an identifier named `using` can terminate its expression statement.
+Version 0.23.7 accepts `using` as a contextual identifier in both grammars,
+including imported function calls, generic calls, bindings, and subscript
+assignments. A newline after an identifier named `using` can terminate its
+expression statement.
 Existing `using` and `await using` declarations retain their assignment-shaped
 trees. Resource-declaration support remains incomplete: resource `for...of`
 bindings are rejected, while some invalid expression and destructuring forms
