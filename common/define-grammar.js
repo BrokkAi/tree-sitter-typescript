@@ -72,6 +72,9 @@ module.exports = function defineGrammar(dialect) {
     ]),
 
     conflicts: ($, previous) => previous.concat([
+      // Keep contextual `using` identifiers alongside the assignment prefix.
+      [$.primary_expression, $.assignment_expression],
+      [$.primary_expression, $.assignment_expression, $._property_name],
       [$.call_expression, $.instantiation_expression, $.binary_expression],
       [$.call_expression, $.instantiation_expression, $.binary_expression, $.unary_expression],
       [$.call_expression, $.instantiation_expression, $.binary_expression, $.update_expression],
@@ -200,12 +203,22 @@ module.exports = function defineGrammar(dialect) {
         field('arguments', optional($.arguments)),
       )),
 
-      assignment_expression: $ => prec.right('assign', seq(
-        optional('using'),
-        field('left', choice($.parenthesized_expression, $._lhs_expression)),
-        '=',
-        field('right', $.expression),
-      )),
+      assignment_expression: $ => choice(
+        prec.right('assign', seq(
+          field('left', choice($.parenthesized_expression, $._lhs_expression)),
+          '=',
+          field('right', $.expression),
+        )),
+        // Leave the prefix ambiguous until `=` confirms an assignment.
+        seq(
+          'using',
+          field('left', choice($.parenthesized_expression, $._lhs_expression)),
+          prec.right('assign', seq(
+            '=',
+            field('right', $.expression),
+          )),
+        ),
+      ),
 
       _augmented_assignment_lhs: ($, previous) => choice(previous, $.non_null_expression),
 
@@ -1171,6 +1184,7 @@ module.exports = function defineGrammar(dialect) {
         'declare',
         'namespace',
         'type',
+        'using',
         'public',
         'private',
         'protected',

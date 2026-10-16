@@ -36,6 +36,14 @@ upstream `tree-sitter-typescript` crate in one executable.
 
 ## Changes from upstream
 
+Both grammars accept `using` as a contextual identifier, including imported
+function calls, generic calls, bindings, and subscript assignments. A newline
+after an identifier named `using` can terminate its expression statement.
+Existing `using` and `await using` declarations retain their assignment-shaped
+trees. Resource-declaration support remains incomplete: resource `for...of`
+bindings are rejected, while some invalid expression and destructuring forms
+are accepted.
+
 Version 0.23.5 accepts literal ampersands in TSX text and quoted attributes,
 including URL query strings and ampersands immediately before a closing quote.
 Named, decimal, and hexadecimal character references retain their existing

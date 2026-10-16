@@ -1,0 +1,357 @@
+======================================================================
+Imported using function
+:language(typescript)
+:language(tsx)
+======================================================================
+
+import { using } from 'rxjs';
+const x = using(() => {}, () => []);
+
+---
+
+(program
+  (import_statement
+    (import_clause
+      (named_imports
+        (import_specifier
+          name: (identifier))))
+    source: (string
+      (string_fragment)))
+  (lexical_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (call_expression
+        function: (identifier)
+        arguments: (arguments
+          (arrow_function
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (arrow_function
+            parameters: (formal_parameters)
+            body: (array)))))))
+
+======================================================================
+Using calls and contextual parameters
+:language(typescript)
+:language(tsx)
+======================================================================
+
+using();
+const x = using();
+function apply(using) { return using(); }
+consume(using());
+using?.();
+using<Resource>();
+obj.using();
+
+---
+
+(program
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (arguments)))
+  (lexical_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (call_expression
+        function: (identifier)
+        arguments: (arguments))))
+  (function_declaration
+    name: (identifier)
+    parameters: (formal_parameters
+      (required_parameter
+        pattern: (identifier)))
+    body: (statement_block
+      (return_statement
+        (call_expression
+          function: (identifier)
+          arguments: (arguments)))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (arguments
+        (call_expression
+          function: (identifier)
+          arguments: (arguments)))))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      arguments: (arguments)))
+  (expression_statement
+    (call_expression
+      function: (identifier)
+      type_arguments: (type_arguments
+        (type_identifier))
+      arguments: (arguments)))
+  (expression_statement
+    (call_expression
+      function: (member_expression
+        object: (identifier)
+        property: (property_identifier))
+      arguments: (arguments))))
+
+======================================================================
+Using bindings and assignments
+:language(typescript)
+:language(tsx)
+======================================================================
+
+const using = resource;
+using = replacement;
+using += increment;
+const { using: localUsing } = source;
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (identifier)))
+  (expression_statement
+    (assignment_expression
+      left: (identifier)
+      right: (identifier)))
+  (expression_statement
+    (augmented_assignment_expression
+      left: (identifier)
+      right: (identifier)))
+  (lexical_declaration
+    (variable_declarator
+      name: (object_pattern
+        (pair_pattern
+          key: (property_identifier)
+          value: (identifier)))
+      value: (identifier))))
+
+======================================================================
+Using import alias and ordinary call controls
+:language(typescript)
+:language(tsx)
+======================================================================
+
+import { using as useResource } from 'rxjs';
+const aliased = useResource(() => {}, () => []);
+import { useResource } from 'rxjs';
+const other = useResource(() => {}, () => []);
+obj.using();
+
+---
+
+(program
+  (import_statement
+    (import_clause
+      (named_imports
+        (import_specifier
+          name: (identifier)
+          alias: (identifier))))
+    source: (string
+      (string_fragment)))
+  (lexical_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (call_expression
+        function: (identifier)
+        arguments: (arguments
+          (arrow_function
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (arrow_function
+            parameters: (formal_parameters)
+            body: (array))))))
+  (import_statement
+    (import_clause
+      (named_imports
+        (import_specifier
+          name: (identifier))))
+    source: (string
+      (string_fragment)))
+  (lexical_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (call_expression
+        function: (identifier)
+        arguments: (arguments
+          (arrow_function
+            parameters: (formal_parameters)
+            body: (statement_block))
+          (arrow_function
+            parameters: (formal_parameters)
+            body: (array))))))
+  (expression_statement
+    (call_expression
+      function: (member_expression
+        object: (identifier)
+        property: (property_identifier))
+      arguments: (arguments))))
+
+======================================================================
+Using and await using declaration compatibility
+:language(typescript)
+:language(tsx)
+======================================================================
+
+using x = acquire();
+using a = one(), b = two();
+await using resource = acquire();
+await using first = one(), second = two();
+
+---
+
+(program
+  (expression_statement
+    (assignment_expression
+      left: (identifier)
+      right: (call_expression
+        function: (identifier)
+        arguments: (arguments))))
+  (expression_statement
+    (sequence_expression
+      (assignment_expression
+        left: (identifier)
+        right: (call_expression
+          function: (identifier)
+          arguments: (arguments)))
+      (assignment_expression
+        left: (identifier)
+        right: (call_expression
+          function: (identifier)
+          arguments: (arguments)))))
+  (expression_statement
+    (await_expression
+      (assignment_expression
+        left: (identifier)
+        right: (call_expression
+          function: (identifier)
+          arguments: (arguments)))))
+  (expression_statement
+    (sequence_expression
+      (await_expression
+        (assignment_expression
+          left: (identifier)
+          right: (call_expression
+            function: (identifier)
+            arguments: (arguments))))
+      (assignment_expression
+        left: (identifier)
+        right: (call_expression
+          function: (identifier)
+          arguments: (arguments))))))
+
+======================================================================
+Using methods and block calls
+:language(typescript)
+:language(tsx)
+======================================================================
+
+const obj = { using() { return 1; } }; obj.using();
+{ using(); }
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (object
+        (method_definition
+          name: (property_identifier)
+          parameters: (formal_parameters)
+          body: (statement_block
+            (return_statement
+              (number)))))))
+  (expression_statement
+    (call_expression
+      function: (member_expression
+        object: (identifier)
+        property: (property_identifier))
+      arguments: (arguments)))
+  (statement_block
+    (expression_statement
+      (call_expression
+        function: (identifier)
+        arguments: (arguments)))))
+
+======================================================================
+Using prefix assignment precedence compatibility
+:language(typescript)
+:language(tsx)
+======================================================================
+
+using x = a + b * c;
+using x = y = z;
+await using x = a + b * c;
+
+---
+
+(program
+  (expression_statement
+    (assignment_expression
+      left: (identifier)
+      right: (binary_expression
+        left: (identifier)
+        right: (binary_expression
+          left: (identifier)
+          right: (identifier)))))
+  (expression_statement
+    (assignment_expression
+      left: (identifier)
+      right: (assignment_expression
+        left: (identifier)
+        right: (identifier))))
+  (expression_statement
+    (await_expression
+      (assignment_expression
+        left: (identifier)
+        right: (binary_expression
+          left: (identifier)
+          right: (binary_expression
+            left: (identifier)
+            right: (identifier)))))))
+
+======================================================================
+Using identifier subscript assignment
+:language(typescript)
+:language(tsx)
+======================================================================
+
+const using = [];
+using[x] = acquire();
+
+---
+
+(program
+  (lexical_declaration
+    (variable_declarator
+      name: (identifier)
+      value: (array)))
+  (expression_statement
+    (assignment_expression
+      left: (subscript_expression
+        object: (identifier)
+        index: (identifier))
+      right: (call_expression
+        function: (identifier)
+        arguments: (arguments)))))
+
+======================================================================
+Using identifier newline automatic semicolon
+:language(typescript)
+:language(tsx)
+======================================================================
+
+using
+x = acquire();
+
+---
+
+(program
+  (expression_statement
+    (identifier))
+  (expression_statement
+    (assignment_expression
+      left: (identifier)
+      right: (call_expression
+        function: (identifier)
+        arguments: (arguments)))))
